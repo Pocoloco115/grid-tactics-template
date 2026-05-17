@@ -15,7 +15,7 @@ MonoBehaviour:
   _cardName: holi
   _health: 1
   _moveType: 1
-  _cardinalRange: 1
+  _cardinalRange: 10
   _moveOffsets:
   - {x: 1, y: 0}
   - {x: -1, y: 0}

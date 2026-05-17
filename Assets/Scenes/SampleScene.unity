@@ -442,8 +442,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bb2cd2fece8e36059eee3e66a6a4a80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridManager
-  _width: 7
-  _height: 7
+  _width: 9
+  _height: 9
   _cellSize: {x: 1, y: 1}
   _origin: {x: 0, y: 0}
   _tilePrefab: {fileID: 7183723806111503419, guid: c9db5d34db51f39789f190f28d97f5b4, type: 3}

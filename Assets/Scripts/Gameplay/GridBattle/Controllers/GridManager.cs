@@ -82,13 +82,34 @@ public class GridManager : MonoBehaviour
         var result = new List<Vector2Int>();
         if(card == null) return result;
 
-        foreach(var offset in card.Data.GetMoveOffsets())
+        var directions = new Vector2Int[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
+        
+        foreach(var direction in directions)
         {
-            var target = card.GridPos + offset;
-            if (!IsInside(target)) continue;
-            if (IsOccupied(target)) continue;
-            result.Add(target);
+            int maxRange = 0;
+            foreach(var offset in card.Data.GetMoveOffsets())
+            {
+                if (offset.x != 0 && direction.x != 0)
+                {
+                    maxRange = Mathf.Max(maxRange, Mathf.Abs(offset.x));
+                }
+                else if (offset.y != 0 && direction.y != 0)
+                {
+                    maxRange = Mathf.Max(maxRange, Mathf.Abs(offset.y));
+                }
+            }
+            
+            for(int i = 1; i <= maxRange; i++)
+            {
+                var target = card.GridPos + (direction * i);
+                
+                if (!IsInside(target)) break;
+                if (IsOccupied(target)) break;
+                
+                result.Add(target);
+            }
         }
+        
         return result;
     }
     public bool TryMove(CardBehaviour card, Vector2Int dest)
@@ -96,8 +117,9 @@ public class GridManager : MonoBehaviour
         if (card == null) return false;
         if (!IsInside(dest)) return false;
         if (IsOccupied(dest)) return false;
-
+        if(GetValidMoves(card).Contains(dest) == false) return false;
         bool allowed = false;
+        
         foreach (var offset in card.Data.GetMoveOffsets())
         {
             if (card.GridPos + offset == dest)
