@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5067863ec45fe5c28d8225fe7018155, type: 3}
-  m_Name: DeckData
+  m_Name: HexDeckData
   m_EditorClassIdentifier: Assembly-CSharp::DeckData
   _cards:
-  - {fileID: 11400000, guid: f236d22f45bf0a67eb3b13e52855d2a1, type: 2}
-  - {fileID: 11400000, guid: f236d22f45bf0a67eb3b13e52855d2a1, type: 2}
-  - {fileID: 11400000, guid: f236d22f45bf0a67eb3b13e52855d2a1, type: 2}
+  - {fileID: 11400000, guid: a311b57896aaf52c7836bf6a2364232e, type: 2}
+  - {fileID: 11400000, guid: a311b57896aaf52c7836bf6a2364232e, type: 2}
+  - {fileID: 11400000, guid: a311b57896aaf52c7836bf6a2364232e, type: 2}

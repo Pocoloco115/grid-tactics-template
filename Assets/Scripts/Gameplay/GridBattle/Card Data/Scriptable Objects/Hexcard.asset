@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93a9b93e4cfcc390dac7dda5221de3f9, type: 3}
-  m_Name: CardData
+  m_Name: Hexcard
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  _cardName: holi
-  _health: 1
-  _moveType: 1
-  _cardinalRange: 10
-  _moveOffsets:
+  _cardName: 
+  _health: 0
+  _moveType: 2
+  _customOffsets:
   - {x: 1, y: 0}
-  - {x: -1, y: 0}
-  - {x: 0, y: 1}
+  - {x: 1, y: -1}
   - {x: 0, y: -1}
+  - {x: -1, y: 0}
+  - {x: -1, y: 1}
+  - {x: 0, y: 1}
+  _moveRange: 1

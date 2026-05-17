@@ -11,16 +11,31 @@ public class PlayerCombatInputController : MonoBehaviour
 
     private InputAction _click;
 
+    public void SetGrid(GridManager grid)
+    {
+        _grid = grid;
+    }
+
     private void Awake()
     {
-        if (_camera == null) _camera = Camera.main;
+        if (_camera == null)
+        {
+            _camera = Camera.main;
+        }
 
         _click = new InputAction("Click", InputActionType.Button, "<Mouse>/leftButton");
         _click.performed += OnClick;
     }
 
-    private void OnEnable() => _click.Enable();
-    private void OnDisable() => _click.Disable();
+    private void OnEnable()
+    {
+        _click.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _click.Disable();
+    }
 
     private void OnDestroy()
     {
@@ -30,7 +45,10 @@ public class PlayerCombatInputController : MonoBehaviour
 
     private void OnClick(InputAction.CallbackContext ctx)
     {
-        if (!_turns.IsPlayersTurn) return;
+        if (!_turns.IsPlayersTurn)
+        {
+            return;
+        }
 
         Vector2 screenPos = Mouse.current.position.ReadValue();
         Vector3 world3 = _camera.ScreenToWorldPoint(screenPos);
@@ -40,6 +58,12 @@ public class PlayerCombatInputController : MonoBehaviour
 
         if (hit.collider == null)
         {
+            if (_grid.TryGetGridPositionAtWorld(world2D, out Vector2Int clickedPos))
+            {
+                OnGridClicked(clickedPos);
+                return;
+            }
+
             Deselect();
             return;
         }
@@ -56,9 +80,9 @@ public class PlayerCombatInputController : MonoBehaviour
             return;
         }
 
-        if (hit.collider.TryGetComponent<Tile>(out var tile))
+        if (_grid.TryGetGridPositionAtWorld(world2D, out Vector2Int gridPos))
         {
-            OnTileClicked(tile);
+            OnGridClicked(gridPos);
             return;
         }
 
@@ -83,14 +107,20 @@ public class PlayerCombatInputController : MonoBehaviour
         _grid.ClearMoveHighlights();
     }
 
-    private void OnTileClicked(Tile tile)
+    private void OnGridClicked(Vector2Int gridPos)
     {
-        if (_selected == null) return;
+        if (_selected == null)
+        {
+            return;
+        }
 
-        bool moved = _grid.TryMove(_selected, tile.GridPos);
+        bool moved = _grid.TryMove(_selected, gridPos);
 
         Deselect();
 
-        if (moved) _turns.EndTurn();
+        if (moved)
+        {
+            _turns.EndTurn();
+        }
     }
 }

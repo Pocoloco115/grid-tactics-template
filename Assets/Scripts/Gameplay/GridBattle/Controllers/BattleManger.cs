@@ -3,67 +3,136 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
+    public enum BoardType
+    {
+        Hex,
+        Rectangle
+    }
+
     [SerializeField] private bool _autoStart = true;
+    [SerializeField] private BoardType _boardType = BoardType.Hex;
 
     [Header("Refs")]
-    [SerializeField] private GridManager _grid;
+    [SerializeField] private HexGridManager _hexGrid;
+    [SerializeField] private RectGridManager _rectGrid;
+    [SerializeField] private PlayerCombatInputController _playerInput;
+    [SerializeField] private EnemyBotController _enemyBot;
     [SerializeField] private TurnManager _turns;
 
     [Header("Decks")]
     [SerializeField] private DeckData _playerDeck;
     [SerializeField] private DeckData _enemyDeck;
 
-    [Header("Spawns (max 3)")]
-    [SerializeField] private Vector2Int[] _playerSpawns = { new(0,0), new(1,0), new(2,0) };
-    [SerializeField] private Vector2Int[] _enemySpawns  = { new(0,4), new(1,4), new(2,4) };
-
-    [SerializeField] private int _playerSpawnY = 0;
-    [SerializeField] private int _enemySpawnY = 4;
-
     public readonly List<CardBehaviour> PlayerCards = new();
     public readonly List<CardBehaviour> EnemyCards = new();
 
+    private GridManager _grid;
+
+    private void Awake()
+    {
+        ResolveGrid();
+    }
+
     private void Start()
     {
-        if (_autoStart) StartBattle();
+        if (_autoStart)
+        {
+            StartBattle();
+        }
+    }
+
+    private void ResolveGrid()
+    {
+        if (_boardType == BoardType.Hex)
+        {
+            _grid = _hexGrid;
+            if (_hexGrid != null)
+            {
+                _hexGrid.gameObject.SetActive(true);
+            }
+
+            if (_rectGrid != null)
+            {
+                _rectGrid.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            _grid = _rectGrid;
+            if (_rectGrid != null)
+            {
+                _rectGrid.gameObject.SetActive(true);
+            }
+
+            if (_hexGrid != null)
+            {
+                _hexGrid.gameObject.SetActive(false);
+            }
+        }
+
+        if (_playerInput != null)
+        {
+            _playerInput.SetGrid(_grid);
+        }
+
+        if (_enemyBot != null)
+        {
+            _enemyBot.SetGrid(_grid);
+        }
     }
 
     public void StartBattle()
     {
+        if (_grid == null)
+        {
+            ResolveGrid();
+        }
+
         PlayerCards.Clear();
         EnemyCards.Clear();
 
-        SpawnDeck(_playerDeck, Team.Player, _playerSpawnY, PlayerCards);
-        SpawnDeck(_enemyDeck, Team.Enemy, _enemySpawnY, EnemyCards);
+        SpawnDeck(_playerDeck, Team.Player, PlayerCards);
+        SpawnDeck(_enemyDeck, Team.Enemy, EnemyCards);
 
         _turns.StartTurns(TurnState.Player);
     }
 
-    private void SpawnDeck(DeckData deck, Team team, int spawnY, List<CardBehaviour> output)
+    private void SpawnDeck(DeckData deck, Team team, List<CardBehaviour> output)
     {
-        if (deck == null) return;
+        if (deck == null)
+        {
+            return;
+        }
 
-        const int gapCells = 1;
-        int maxBySpacing = (_grid.Width + gapCells) / (1 + gapCells);
-        int count = Mathf.Min(deck.CountClampled, maxBySpacing);
-        if (count <= 0) return;
+        if (_grid == null)
+        {
+            return;
+        }
 
-        int clampedSpawnY = Mathf.Clamp(spawnY, 0, _grid.Height - 1);
-        int totalWidthNeeded = count + (count - 1) * gapCells;
-        int startX = totalWidthNeeded <= _grid.Width
-            ? (_grid.Width - totalWidthNeeded) / 2
-            : (_grid.Width - count) / 2;
+        int row = team == Team.Player ? 0 : _grid.Height - 1;
+        List<Vector2Int> spawnSlots = BattleSpawnUtility.GetSpawnSlots(_grid, row, deck.CountClampled);
+        int count = spawnSlots.Count;
+        if (count <= 0)
+        {
+            return;
+        }
 
         for (int i = 0; i < count; i++)
         {
             var data = deck.Cards[i];
-            if (data == null) continue;
+            if (data == null)
+            {
+                continue;
+            }
 
-            int x = totalWidthNeeded <= _grid.Width ? startX + i * (1 + gapCells) : startX + i;
-            var pos = new Vector2Int(x, clampedSpawnY);
+            Vector2Int pos = spawnSlots[i];
 
             var card = _grid.SpawnCard(data, pos, team);
-            if (card != null) output.Add(card);
+            if (card != null)
+            {
+                output.Add(card);
+            }
         }
     }
+
 }

@@ -8,38 +8,45 @@ public class CardData : ScriptableObject
     [SerializeField] private string _cardName;
     [SerializeField] private int _health;
     [Header("Movement")]
-    [SerializeField] private MoveType _moveType = MoveType.CardinalRange;
-    [SerializeField] private int _cardinalRange = 1;
-    [SerializeField] private List<Vector2Int> _moveOffsets = new List<Vector2Int>()
-    {
-        new Vector2Int(1, 0),
-        new Vector2Int(-1, 0),
-        new Vector2Int(0, 1),
-        new Vector2Int(0, -1)
-    };
+    [SerializeField] private MoveType _moveType = MoveType.Cardinal;
+    [SerializeField] private List<Vector2Int> _customOffsets = new List<Vector2Int>();
 
-    public IEnumerable<Vector2Int> GetMoveOffsets()
+    [SerializeField] private int _moveRange = 1;
+
+    public int MoveRange => _moveRange;
+    public MoveType MoveType => _moveType;
+
+    public IEnumerable<Vector2Int> GetMoveDirections()
     {
-        if (_moveType == MoveType.Offsets)
+        if (_moveType == MoveType.Hex)
         {
-            foreach (var offset in _moveOffsets)
-            {
-                yield return offset;
-            }
+            yield return new Vector2Int(1, 0);
+            yield return new Vector2Int(-1, 0);
+            yield return new Vector2Int(0, 1);
+            yield return new Vector2Int(0, -1);
+            yield return new Vector2Int(1, -1);
+            yield return new Vector2Int(-1, 1);
             yield break;
         }
-        for(int i = 1; i <= _cardinalRange; i++)
-        {
-            yield return new Vector2Int(i, 0);
-            yield return new Vector2Int(-i, 0);
-            yield return new Vector2Int(0, i);
-            yield return new Vector2Int(0, -i);
-        }
+
+        yield return new Vector2Int(1, 0);
+        yield return new Vector2Int(-1, 0);
+        yield return new Vector2Int(0, 1);
+        yield return new Vector2Int(0, -1);
     }
 
+    public IEnumerable<Vector2Int> GetCustomOffsets()
+    {
+        foreach (var offset in _customOffsets)
+        {
+            yield return offset;
+        }
+    }
 }
+
 public enum MoveType
 {
-    Offsets,
-    CardinalRange
+    Cardinal,
+    Hex,
+    Custom
 }

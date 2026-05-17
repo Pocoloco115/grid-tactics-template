@@ -7,6 +7,11 @@ public class EnemyBotController : MonoBehaviour
     [SerializeField] private TurnManager _turns;
     [SerializeField] private BattleManager _battle;
 
+    public void SetGrid(GridManager grid)
+    {
+        _grid = grid;
+    }
+
     private void OnEnable()
     {
         _turns.TurnChanged += OnTurnChanged;
@@ -19,7 +24,10 @@ public class EnemyBotController : MonoBehaviour
 
     private void OnTurnChanged(TurnState state)
     {
-        if (state != TurnState.Enemy) return;
+        if (state != TurnState.Enemy)
+        {
+            return;
+        }
 
         DoEnemyMove();
         _turns.EndTurn();
@@ -30,12 +38,21 @@ public class EnemyBotController : MonoBehaviour
         var candidates = new List<CardBehaviour>();
         foreach (var c in _battle.EnemyCards)
         {
-            if (c == null) continue;
+            if (c == null)
+            {
+                continue;
+            }
+
             if (_grid.GetValidMoves(c).Count > 0)
+            {
                 candidates.Add(c);
+            }
         }
 
-        if (candidates.Count == 0) return;
+        if (candidates.Count == 0)
+        {
+            return;
+        }
 
         var chosen = candidates[Random.Range(0, candidates.Count)];
         var moves = _grid.GetValidMoves(chosen);
