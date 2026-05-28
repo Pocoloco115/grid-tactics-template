@@ -135,7 +135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &144204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,9 +287,9 @@ RectTransform:
   - {fileID: 1685820491}
   m_Father: {fileID: 320231628}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -150}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &105910988
@@ -408,9 +408,9 @@ RectTransform:
   - {fileID: 2139965484}
   m_Father: {fileID: 320231628}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -47.5}
   m_SizeDelta: {x: 200, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &114263083
@@ -425,13 +425,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602f577f35ed5b635a96efeeb7973f41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIActionItem
+  _action: 1
   _hoverPanel: {fileID: 82600123}
   _selectedOverlay: {fileID: 2139965483}
   _selectedOverlayCanvasGroup: {fileID: 2139965487}
-  _pulseSpeed: 2
+  _pulseSpeed: 16
   _minAlpha: 0.15
   _maxAlpha: 0.65
-  _fadeInTime: 0.08
+  _fadeInTime: 0
 --- !u!1 &174099855
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,7 +726,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &320231628
 RectTransform:
   m_ObjectHideFlags: 0
@@ -745,7 +746,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -494, y: 0}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &320231629
@@ -980,7 +981,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &543333822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1480,9 +1481,9 @@ RectTransform:
   - {fileID: 1115673573}
   m_Father: {fileID: 320231628}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -97.5}
   m_SizeDelta: {x: 200, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1137787720
@@ -1497,13 +1498,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602f577f35ed5b635a96efeeb7973f41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIActionItem
+  _action: 2
   _hoverPanel: {fileID: 2112937308}
   _selectedOverlay: {fileID: 1115673572}
   _selectedOverlayCanvasGroup: {fileID: 1115673576}
-  _pulseSpeed: 2
+  _pulseSpeed: 16
   _minAlpha: 0.15
   _maxAlpha: 0.65
-  _fadeInTime: 0.08
+  _fadeInTime: 0
 --- !u!1 &1158799212
 GameObject:
   m_ObjectHideFlags: 0
@@ -1938,7 +1940,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1884186907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1969,6 +1971,7 @@ MonoBehaviour:
   _camera: {fileID: 519420031}
   _grid: {fileID: 0}
   _turns: {fileID: 1884186909}
+  _actionPanel: {fileID: 320231632}
 --- !u!114 &1884186909
 MonoBehaviour:
   m_ObjectHideFlags: 0

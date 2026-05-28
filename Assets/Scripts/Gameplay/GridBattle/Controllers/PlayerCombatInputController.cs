@@ -6,8 +6,10 @@ public class PlayerCombatInputController : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private GridManager _grid;
     [SerializeField] private TurnManager _turns;
+    [SerializeField] private UIActionPanel _actionPanel;
 
     private CardBehaviour _selected;
+    private UIActionType _selectedAction = UIActionType.None;
 
     private InputAction _click;
 
@@ -29,11 +31,21 @@ public class PlayerCombatInputController : MonoBehaviour
 
     private void OnEnable()
     {
+        if (_actionPanel != null)
+        {
+            _actionPanel.SelectionChanged += OnActionSelected;
+        }
+
         _click.Enable();
     }
 
     private void OnDisable()
     {
+        if (_actionPanel != null)
+        {
+            _actionPanel.SelectionChanged -= OnActionSelected;
+        }
+
         _click.Disable();
     }
 
@@ -98,18 +110,57 @@ public class PlayerCombatInputController : MonoBehaviour
         }
 
         _selected = card;
-        _grid.ShowMoveHighlights(_grid.GetValidMoves(_selected));
+        _selectedAction = UIActionType.None;
+
+        if (_actionPanel != null)
+        {
+            _actionPanel.Show();
+        }
+
+        _grid.ClearMoveHighlights();
     }
 
     private void Deselect()
     {
         _selected = null;
+        _selectedAction = UIActionType.None;
+
+        if (_actionPanel != null)
+        {
+            _actionPanel.Hide();
+        }
+
         _grid.ClearMoveHighlights();
+    }
+
+    private void OnActionSelected(UIActionItem item)
+    {
+        if (_selected == null || item == null)
+        {
+            _selectedAction = UIActionType.None;
+            _grid.ClearMoveHighlights();
+            return;
+        }
+
+        _selectedAction = item.Action;
+
+        if (_selectedAction == UIActionType.Attack)
+        {
+            _grid.ShowMoveHighlights(_grid.GetValidAttackOffsets(_selected));
+            return;
+        }
+
+        _grid.ShowMoveHighlights(_grid.GetValidMoves(_selected));
     }
 
     private void OnGridClicked(Vector2Int gridPos)
     {
         if (_selected == null)
+        {
+            return;
+        }
+
+        if (_selectedAction != UIActionType.Move)
         {
             return;
         }

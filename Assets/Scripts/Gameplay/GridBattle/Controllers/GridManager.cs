@@ -247,6 +247,58 @@ public abstract class GridManager : MonoBehaviour
         return result;
     }
 
+    public List<Vector2Int> GetValidAttackOffsets(CardBehaviour card)
+    {
+        List<Vector2Int> result = new List<Vector2Int>();
+
+        if (card == null)
+        {
+            return result;
+        }
+
+        if (card.Data.AttackType == AttackType.Custom)
+        {
+            HexGridManager hexGrid = this as HexGridManager;
+
+            foreach (Vector2Int offset in card.Data.GetAttackOffsets())
+            {
+                Vector2Int target;
+
+                if (hexGrid != null)
+                {
+                    target = hexGrid.GetOffsetFromAxial(hexGrid.GetAxialFromOffset(card.GridPos) + offset);
+                }
+                else
+                {
+                    target = card.GridPos + offset;
+                }
+
+                if (!IsInside(target))
+                {
+                    continue;
+                }
+
+                result.Add(target);
+            }
+
+            return result;
+        }
+
+        foreach (Vector2Int direction in card.Data.GetAttackDirections())
+        {
+            Vector2Int target = card.GridPos + direction;
+
+            if (!IsInside(target))
+            {
+                continue;
+            }
+
+            result.Add(target);
+        }
+
+        return result;
+    }
+
     public bool TryMove(CardBehaviour card, Vector2Int dest)
     {
         if (card == null)

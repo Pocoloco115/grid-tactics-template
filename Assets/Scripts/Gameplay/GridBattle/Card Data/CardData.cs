@@ -15,9 +15,11 @@ public class CardData : ScriptableObject
     [SerializeField] private int _moveRange = 1;
     [Header("Attack")]
     [SerializeField] private AttackType _attackType = AttackType.Cardinal;
+    [SerializeField] private List<Vector2Int> _attackCustomOffsets = new List<Vector2Int>();
     [SerializeField] private int _attackDamage = 1;
 
     public int MoveRange => _moveRange;
+    public int AttackDamage => _attackDamage;
     public MoveType MoveType => _moveType;
     public AttackType AttackType => _attackType;
 
@@ -56,6 +58,24 @@ public class CardData : ScriptableObject
         yield return new Vector2Int(-1, 0);
         yield return new Vector2Int(0, 1);
         yield return new Vector2Int(0, -1);
+    }
+
+    public IEnumerable<Vector2Int> GetAttackOffsets()
+    {
+        if (_attackType == AttackType.Custom)
+        {
+            foreach (var offset in _attackCustomOffsets)
+            {
+                yield return offset;
+            }
+
+            yield break;
+        }
+
+        foreach (Vector2Int direction in GetAttackDirections())
+        {
+            yield return direction;
+        }
     }
 
     public IEnumerable<Vector2Int> GetCustomOffsets()

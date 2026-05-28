@@ -20,6 +20,18 @@ public class UIActionPanel : MonoBehaviour
                 continue;
             }
 
+            if (item.Action == UIActionType.None)
+            {
+                if (i == 0)
+                {
+                    item.SetAction(UIActionType.Move);
+                }
+                else if (i == 1)
+                {
+                    item.SetAction(UIActionType.Attack);
+                }
+            }
+
             item.Clicked += OnItemClicked;
             item.SetSelected(false);
         }

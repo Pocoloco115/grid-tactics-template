@@ -4,6 +4,8 @@ using UnityEngine.EventSystems;
 
 public class UIActionItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    [SerializeField] private UIActionType _action;
+
     [Header("UI Refs")]
     [SerializeField] private GameObject _hoverPanel;
     [SerializeField] private GameObject _selectedOverlay;
@@ -14,6 +16,12 @@ public class UIActionItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     [SerializeField] private float _minAlpha = 0.15f;
     [SerializeField] private float _maxAlpha = 0.65f;
     [SerializeField] private float _fadeInTime = 0.08f;
+
+    public UIActionType Action => _action;
+    public void SetAction(UIActionType action)
+    {
+        _action = action;
+    }
 
     public event Action<UIActionItem> Clicked;
 
@@ -124,4 +132,11 @@ public class UIActionItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         Clicked?.Invoke(this);
     }
+}
+
+public enum UIActionType
+{
+    None,
+    Move,
+    Attack
 }

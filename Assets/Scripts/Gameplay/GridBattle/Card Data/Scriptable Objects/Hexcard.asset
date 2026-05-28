@@ -23,3 +23,6 @@ MonoBehaviour:
   - {x: -1, y: 1}
   - {x: 0, y: 1}
   _moveRange: 1
+  _attackType: 1
+  _attackCustomOffsets: []
+  _attackDamage: 1
