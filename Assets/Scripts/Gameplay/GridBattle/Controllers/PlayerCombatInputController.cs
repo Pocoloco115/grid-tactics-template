@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerCombatInputController : MonoBehaviour
@@ -58,6 +59,11 @@ public class PlayerCombatInputController : MonoBehaviour
     private void OnClick(InputAction.CallbackContext ctx)
     {
         if (!_turns.IsPlayersTurn)
+        {
+            return;
+        }
+
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
         {
             return;
         }

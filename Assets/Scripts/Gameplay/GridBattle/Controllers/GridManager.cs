@@ -256,6 +256,17 @@ public abstract class GridManager : MonoBehaviour
             return result;
         }
 
+        if (card.Data.AttackType == AttackType.Hex)
+        {
+            HexGridManager hexGrid = this as HexGridManager;
+            if (hexGrid == null)
+            {
+                return result;
+            }
+
+            return hexGrid.GetHexNeighbors(card.GridPos);
+        }
+
         if (card.Data.AttackType == AttackType.Custom)
         {
             HexGridManager hexGrid = this as HexGridManager;
